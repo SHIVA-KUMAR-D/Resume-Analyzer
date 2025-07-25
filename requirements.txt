@@ -1,0 +1,11 @@
+streamlit
+pandas
+matplotlib
+scikit-learn
+spacy
+pdfplumber
+docx2txt
+reportlab
+fpdf
+PyMuPDF
+python-dotenv
