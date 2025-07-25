@@ -3,8 +3,14 @@
 import fitz  # PyMuPDF
 import re
 import spacy
+from spacy.cli import download
 
-nlp = spacy.load("en_core_web_sm")
+# Ensure the model is available (especially useful on Streamlit Cloud)
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 COMMON_SKILLS = [
     "python", "java", "c++", "machine learning", "deep learning", "nlp",
@@ -51,7 +57,7 @@ def parse_resume(file_path):
         "Phone": extract_phone(text),
         "Skills": extract_skills(text),
         "Education": extract_education(text),
-        "RawText": text[:1000]  # increased preview length
+        "RawText": text[:1000]  # preview
     }
 
     return extracted
