@@ -1,10 +1,19 @@
 import streamlit as st
 import pandas as pd
 import os
+import spacy
+import matplotlib.pyplot as plt
+
 from utils.resume_parser import parse_resume
 from utils.pdf_report import generate_pdf_report
 from utils.email_sender import send_email_with_attachment
-import matplotlib.pyplot as plt
+
+# Load spaCy model once
+@st.cache_resource
+def load_spacy_model():
+    return spacy.load("en_core_web_sm")
+
+nlp = load_spacy_model()
 
 # Load job data
 @st.cache_data
@@ -34,7 +43,8 @@ def plot_skill_match(skills, job_descriptions):
     ax.bar(skill_counts.keys(), skill_counts.values(), color='skyblue')
     ax.set_title("Skill Match Count")
     ax.set_ylabel("Matches in Job Descriptions")
-    ax.set_xticklabels(skill_counts.keys(), rotation=45)
+    ax.set_xticks(range(len(skill_counts)))
+    ax.set_xticklabels(skill_counts.keys(), rotation=45, ha='right')
     st.pyplot(fig)
 
 # Streamlit UI
