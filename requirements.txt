@@ -9,3 +9,4 @@ reportlab
 fpdf
 PyMuPDF
 python-dotenv
+en-core-web-sm==3.8.0

@@ -1,16 +1,9 @@
-# utils/resume_parser.py
-
 import fitz  # PyMuPDF
 import re
-import spacy
-from spacy.cli import download
+import en_core_web_sm
 
-# Ensure the model is available (especially useful on Streamlit Cloud)
-try:
-    nlp = spacy.load("en_core_web_sm")
-except OSError:
-    download("en_core_web_sm")
-    nlp = spacy.load("en_core_web_sm")
+# Load the spaCy model correctly (no runtime download)
+nlp = en_core_web_sm.load()
 
 COMMON_SKILLS = [
     "python", "java", "c++", "machine learning", "deep learning", "nlp",
@@ -57,7 +50,7 @@ def parse_resume(file_path):
         "Phone": extract_phone(text),
         "Skills": extract_skills(text),
         "Education": extract_education(text),
-        "RawText": text[:1000]  # preview
+        "RawText": text[:1000]  # Preview of resume text
     }
 
     return extracted
