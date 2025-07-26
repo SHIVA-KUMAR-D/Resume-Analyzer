@@ -1,19 +1,18 @@
-# utils/resume_parser.py
-
 import fitz  # PyMuPDF
 import re
 import spacy
 
-# Load the spaCy model (must be installed via requirements.txt)
+# Load spaCy model
 try:
     nlp = spacy.load("en_core_web_sm")
 except OSError:
     raise OSError(
-        "spaCy model 'en_core_web_sm' not found. "
-        "Ensure it's installed by adding this to requirements.txt:\n"
+        "spaCy model 'en_core_web_sm' not found.\n"
+        "Install it by adding to requirements.txt:\n"
         "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl"
     )
 
+# Common tech skills list for matching
 COMMON_SKILLS = [
     "python", "java", "c++", "machine learning", "deep learning", "nlp",
     "data analysis", "sql", "excel", "django", "react", "aws", "git",
@@ -54,13 +53,11 @@ def parse_resume(file_path):
     for page in doc:
         text += page.get_text()
 
-    extracted = {
+    return {
         "Name": extract_name(text),
         "Email": extract_email(text),
         "Phone": extract_phone(text),
         "Skills": extract_skills(text),
         "Education": extract_education(text),
-        "RawText": text[:1000]  # show preview
+        "RawText": text[:1000]  # Preview only
     }
-
-    return extracted
